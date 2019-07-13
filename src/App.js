@@ -1,5 +1,6 @@
 import React from "react";
 import Search from "./components/Search";
+import Star from "./components/Star";
 //import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
       <h1>Amusify</h1>
       <br />
       <Search />
+      <Star showStar={showStar} />
     </div>
   );
 }
