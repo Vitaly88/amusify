@@ -1,48 +1,55 @@
 import React from "react";
 
 function Search(props) {
-  const [searchMusic, setSearchMusic] = React.useState();
+  const [searchMusic, setSearchMusic] = React.useState("");
+  const [searchList, setSearchList] = React.useState([""]);
 
   async function handleInputChange(event) {
+    //setSearchList([...searchList, value]);
+    const value = event.target.value;
+    setSearchMusic(value);
+
     try {
       let res = await fetch(
         `https://api.spotify.com/v1/search?q=${searchMusic}&type=artist&market=US&offset=5&limit=10`,
         {
           headers: {
             Authorization:
-              "Bearer BQChT5ckOmjqpqr7-8jwcCyXIog1_sCSgg33aLQFm-MdWHKKyb-l1p0VhvnADx_kQbEN6sWzfjUGwE0Ripk3NJX343ss1_Dfuf83mFlzMoaSbjJlbZxW3VijAgroNr-E7i6ilIqBXgfA36a7"
+              "Bearer BQBqK16Fw7Eg9K2Vy2XsWO9Hs_U02tofVKdUQNOdKsOFalaxcYngb9QwtO1WyQ7k_KXN2STc9dzhv2L6SKoMbUFnsFf64Vjzt9yeyiOjRMjdKRvqk7jNxprhc50tHgc8NPkt4TTIhkZyQ1NK"
           }
         }
       );
       let data = await res.json();
-      console.log(data.artists.items[0].name);
-      // props.onSearchChange(artists.items[0].name);
+      const newFoundItem = data.artists.items[0].name;
 
-    //   const value = await setSearchMusic(event.target.value);
-
-    //   if (value !== "") {
-    //     props.onSearchChange();
-    //   } else {
-    //     props.onSearchChange([]);
-    //   }
-    // } catch (err) {
+      setSearchList([...searchList, newFoundItem]);
+    } catch (err) {
       console.log(err);
     }
   }
+
+  //   React.useEffect(() => {
+  //     handleInputChange();
+  //   }, []);
 
   return (
     <div className="form-group row">
       <div className="col-md-4" />
       <div className="form-group row col-md-4">
-        <label for="inputMusic" className="col-md-3 col-form-label">
+        <label htmlFor="inputMusic" className="col-md-3 col-form-label">
           Search
         </label>
         <input
           onChange={handleInputChange}
           className="form-control col-md-9"
+          name="inputMusic"
           type="text"
-          id="inputMusic"
         />
+        <div>
+          {searchList
+            .map((item, index) => <div key={index}>{item}</div>)
+            .slice(0, 11)}
+        </div>
       </div>
       <div className="col-md-4" />
     </div>
