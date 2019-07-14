@@ -16,7 +16,7 @@ function Search(props) {
         {
           headers: {
             Authorization:
-              "Bearer BQBqK16Fw7Eg9K2Vy2XsWO9Hs_U02tofVKdUQNOdKsOFalaxcYngb9QwtO1WyQ7k_KXN2STc9dzhv2L6SKoMbUFnsFf64Vjzt9yeyiOjRMjdKRvqk7jNxprhc50tHgc8NPkt4TTIhkZyQ1NK"
+              "Bearer BQACGn8-zp8-iwPHomiZ29T4NxIC7buHWQzIxIJkfWi3HZE3-iij9K-mOWrTRmes2IoqENqhiyfdhYKsi1V74CgMWal-B7j2k0ePCjsqhMJ4zg2oMpYe4zE4tiMuiHvQ_6JAp3tObvfAzlLZ"
           }
         }
       );
@@ -24,20 +24,32 @@ function Search(props) {
       const newFoundItem = data.artists.items[0].name;
 
       setSearchList([...searchList, newFoundItem]);
-      //console.log(searchList);
-      console.log(data);
+      console.log(searchList);
     } catch (err) {
       console.log(err);
     }
   }
 
-  function handleSearchClick() {
-    setShowStar();
+  function handleSearchClick(item) {
+    setShowStar(item);
+  }
+
+  function handleBackClick() {
+    setShowStar(false);
   }
 
   //   React.useEffect(() => {
   //     handleInputChange();
   //   }, []);
+
+  if (showStar) {
+    return (
+      <div>
+        <img src={showStar} />
+        <button onClick={handleBackClick}>Go back</button>
+      </div>
+    );
+  }
 
   return (
     <div className="form-group row">

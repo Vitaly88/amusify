@@ -9,7 +9,7 @@ function Star(props) {
       {
         headers: {
           Authorization:
-            "Bearer BQBqK16Fw7Eg9K2Vy2XsWO9Hs_U02tofVKdUQNOdKsOFalaxcYngb9QwtO1WyQ7k_KXN2STc9dzhv2L6SKoMbUFnsFf64Vjzt9yeyiOjRMjdKRvqk7jNxprhc50tHgc8NPkt4TTIhkZyQ1NK"
+            "Bearer BQDjWtDrMmNi6JU2YujwAhk62vXkUQPriZQmdFHb5fBHiy7hMDC4xhG9Cp1d2cywEyYMSNDErHu1effjQq-DyWroHtW4Nnaf78DpdoDaSSDKB1o9N2lNhdoxJyjcwEyT0fLdaNSULnQ92tNe"
         }
       }
     );
@@ -27,4 +27,4 @@ function Star(props) {
   return <img src={imageSrc} />;
 }
 
-export default Star;
+//export default Star;
