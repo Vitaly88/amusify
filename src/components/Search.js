@@ -2,8 +2,9 @@ import React from "react";
 
 function Search(props) {
   const [searchMusic, setSearchMusic] = React.useState("");
-  const [searchList, setSearchList] = React.useState([""]);
+  const [searchList, setSearchList] = React.useState("");
   const [showStar, setShowStar] = React.useState("");
+  const [imageSrc, setImageSrc] = React.useState("");
 
   async function handleInputChange(event) {
     //setSearchList([...searchList, value]);
@@ -16,15 +17,15 @@ function Search(props) {
         {
           headers: {
             Authorization:
-              "Bearer BQACGn8-zp8-iwPHomiZ29T4NxIC7buHWQzIxIJkfWi3HZE3-iij9K-mOWrTRmes2IoqENqhiyfdhYKsi1V74CgMWal-B7j2k0ePCjsqhMJ4zg2oMpYe4zE4tiMuiHvQ_6JAp3tObvfAzlLZ"
+              "Bearer BQC-UTKgMvKHAOHYVhTraJlMC-Y2IxGr6IKwr2cT5loFVNwokl1pdI5cEca5yE0HaOyunw3KMT9SyHRDIUo7JlFzagQL1lS04Ismgg8730slPzzBRTU-wvk9paj2teuws5oKiD3-QImKSzS4"
           }
         }
       );
       let data = await res.json();
       const newFoundItem = data.artists.items[0].name;
-
-      setSearchList([...searchList, newFoundItem]);
-      console.log(searchList);
+      setSearchList(newFoundItem);
+      let newFoundImage = await data.artists.items[0].images[1].url;
+      setImageSrc(newFoundImage);
     } catch (err) {
       console.log(err);
     }
@@ -34,22 +35,9 @@ function Search(props) {
     setShowStar(item);
   }
 
-  function handleBackClick() {
-    setShowStar(false);
-  }
-
-  //   React.useEffect(() => {
-  //     handleInputChange();
-  //   }, []);
-
-  if (showStar) {
-    return (
-      <div>
-        <img src={showStar} />
-        <button onClick={handleBackClick}>Go back</button>
-      </div>
-    );
-  }
+  //   function handleBackClick() {
+  //     setShowStar(false);
+  //   }
 
   return (
     <div className="form-group row">
@@ -64,15 +52,14 @@ function Search(props) {
           name="inputMusic"
           type="text"
         />
-
-        <div className="menu">
-          {searchList
-            .map((item, index) => (
-              <div onClick={handleSearchClick} key={index}>
-                {item}
-              </div>
-            ))
-            .slice(0, 5)}
+        <br />
+        <br />
+        <br />
+        <div className="form-group row justify-content-right align-items-center">
+          <div className="col-9" onClick={handleSearchClick}>
+            {searchList}
+          </div>
+          <img id="picSize" className="col-3" alt={searchList} src={imageSrc} />
         </div>
       </div>
       <div className="col-md-4" />
