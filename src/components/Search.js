@@ -7,18 +7,20 @@ function Search(props) {
   const [imageSrc, setImageSrc] = React.useState("");
   const [linkSrc, setLinkSrc] = React.useState("");
 
-  async function handleInputChange(event) {
+  function handleInputChange(event) {
+    const value = event.target.value;
+
+    setSearchMusic(value);
+  }
+
+  async function doSearch() {
     try {
-      const value = event.target.value;
-
-      setSearchMusic(value);
-
       let res = await fetch(
         `https://api.spotify.com/v1/search?q=${searchMusic}&type=artist&market=US&offset=0&limit=50`,
         {
           headers: {
             Authorization:
-              "Bearer BQA376iFIFUaI-13royC3Z6jMZtfN0KNjiTgOw_QrNMOJSidf6SsFi-BhHYvu5LjLD7n4ba83yjbVM0WSboZYbZjICtoyBA0r2Fsk3DoQhicwT864nRuL1uE8NECeh5EBtH89PsMLwu6Ut8B"
+              "Bearer BQA4dyRRMymUvMkbibmvwLTfTeF4eUaDhjWb4M40_316kOwWFegM6q_S7UC-bZmDjCe4eZrm0AFUadHPe1_jriGV9JrBjcrzooskw0QZbMA6nwBAuNK1izsHoGoQPuG7QLj_RuyEe_gvQw6-"
           }
         }
       );
@@ -30,9 +32,9 @@ function Search(props) {
     }
   }
 
-  // React.useEffect(() => {
-  //   handleInputChange();
-  // }, []);
+  React.useEffect(() => {
+    doSearch();
+  }, [searchMusic]);
 
   async function handleSearchClick(searchList) {
     setShowStar(searchList);
@@ -42,7 +44,7 @@ function Search(props) {
         {
           headers: {
             Authorization:
-              "Bearer BQA376iFIFUaI-13royC3Z6jMZtfN0KNjiTgOw_QrNMOJSidf6SsFi-BhHYvu5LjLD7n4ba83yjbVM0WSboZYbZjICtoyBA0r2Fsk3DoQhicwT864nRuL1uE8NECeh5EBtH89PsMLwu6Ut8B"
+              "Bearer BQA4dyRRMymUvMkbibmvwLTfTeF4eUaDhjWb4M40_316kOwWFegM6q_S7UC-bZmDjCe4eZrm0AFUadHPe1_jriGV9JrBjcrzooskw0QZbMA6nwBAuNK1izsHoGoQPuG7QLj_RuyEe_gvQw6-"
           }
         }
       );
@@ -68,7 +70,7 @@ function Search(props) {
   }
 
   function handleFavClick() {
-    return props.onToFav(searchList);
+    return props.onToFav();
   }
 
   if (showStar) {
