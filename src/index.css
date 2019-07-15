@@ -16,7 +16,7 @@ body {
 #picSize {
   background-size: cover;
   background-position: center;
-  max-height: 5%;
+  max-width: 300px;
   border-radius: 10px;
 }
 

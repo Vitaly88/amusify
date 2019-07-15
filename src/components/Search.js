@@ -1,6 +1,6 @@
 import React from "react";
 
-function Search(props) {
+function Search({ onAddToFav }) {
   const [searchMusic, setSearchMusic] = React.useState("");
   const [searchList, setSearchList] = React.useState("");
   const [showStar, setShowStar] = React.useState("");
@@ -9,7 +9,6 @@ function Search(props) {
 
   function handleInputChange(event) {
     const value = event.target.value;
-
     setSearchMusic(value);
   }
 
@@ -20,7 +19,7 @@ function Search(props) {
         {
           headers: {
             Authorization:
-              "Bearer BQA4dyRRMymUvMkbibmvwLTfTeF4eUaDhjWb4M40_316kOwWFegM6q_S7UC-bZmDjCe4eZrm0AFUadHPe1_jriGV9JrBjcrzooskw0QZbMA6nwBAuNK1izsHoGoQPuG7QLj_RuyEe_gvQw6-"
+              "Bearer BQBCKV9m1Spt2ErBiWyfZM7YpIICR1BHQrk4GMktl4qc92XS9xat44nReRIRQhtiD7dvGTkooa7K2j0NwESNsXwGOTGO5TzVrtnCpG-AaFVzFCcv1r9kvuNN1PSU1ZeCvAnZZpPp0PZgw4La"
           }
         }
       );
@@ -69,10 +68,6 @@ function Search(props) {
     setShowStar(false);
   }
 
-  function handleFavClick() {
-    return props.onToFav();
-  }
-
   if (showStar) {
     return (
       <div className="form-group" onClick={handleBackClick}>
@@ -85,10 +80,14 @@ function Search(props) {
           <a className="btn btn-success mr-5" href={linkSrc}>
             You wanna listen to {searchList}?
           </a>
-
-          <button className="btn btn-success" onClick={handleFavClick}>
+          <div
+            className="btn btn-success"
+            onClick={() => {
+              onAddToFav(searchList);
+            }}
+          >
             Add to your favourite artists
-          </button>
+          </div>
         </div>
       </div>
     );
@@ -96,9 +95,8 @@ function Search(props) {
 
   return (
     <div className="form-group row">
-      <div className="col-2" />
-      <div className="textSearch form-group row col-10 justify-content-center align-items-center">
-        <label htmlFor="inputMusic" className="col-2 col-form-label ">
+      <div className="textSearch form-group row col justify-content-center align-items-center">
+        <label htmlFor="inputMusic" className="col-3 col-form-label ">
           Search
         </label>
         <input
@@ -108,7 +106,7 @@ function Search(props) {
           type="text"
           placeholder="surf your lovie-dovie singer..."
         />
-        <div className="textSearch col-4" onClick={handleSearchClick}>
+        <div className="textSearch col-3" onClick={handleSearchClick}>
           {searchList}
         </div>
       </div>

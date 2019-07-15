@@ -21,8 +21,14 @@ function App() {
       <Logo />
       <br />
       <br />
-      <Search />
-      <Favourite onToFav={handleFavClick} favouriteItems={fav} />
+      <Favourite favouriteItems={fav} />
+      <br />
+      <button className="btn btn-success" onClick={() => setFav([])}>
+        Clean my favourites
+      </button>
+      <br />
+      <Search onAddToFav={handleFavClick} />
+      <br />
       <footer>
         <Footer name="VitSolutions with Love ❤️" />
       </footer>
