@@ -32,16 +32,6 @@ footer {
   font-size: 7px;
 }
 
-header {
-  text-align: center;
-  padding: 10px;
-  width: 100vw;
-  position: fixed;
-  left: 0;
-  top: 0;
-  color: #6c91bf;
-}
-
 .spotifyLogo {
   width: 400px;
 }
