@@ -1,53 +1,62 @@
 import React from "react";
 
 function Search(props) {
-  const [searchMusic, setSearchMusic] = React.useState("");
-  const [searchList, setSearchList] = React.useState([""]);
+  const [searchMusic, setSearchMusic] = React.useState(null);
+  const [searchList, setSearchList] = React.useState("");
   const [showStar, setShowStar] = React.useState("");
   const [imageSrc, setImageSrc] = React.useState("");
   const [linkSrc, setLinkSrc] = React.useState("");
 
   async function handleInputChange(event) {
-    //setSearchList([...searchList, value]);
-    const value = event.target.value;
-    setSearchMusic(value);
-
     try {
+      const value = event.target.value;
+      if (value) {
+        setSearchMusic(value);
+      }
+
       let res = await fetch(
-        `https://api.spotify.com/v1/search?q=${searchMusic}&type=artist&market=US&offset=5&limit=10`,
+        `https://api.spotify.com/v1/search?q=${searchMusic}&type=artist&market=US&offset=20&limit=10`,
         {
           headers: {
             Authorization:
-              "Bearer BQAY6kZzsYqqgdxPVUO4WTH6ApovTUNc2Ujp-VAHdOpRHl18SNVKR6WlUTlo20GwdNfF1chZoxcVyDRtvjKQ3eGfH4l2GE2Mz7LjeOja9N7hQnBRbv-ulKAc33li8YvfkH_-BJ0MBPZm7pOT"
+              "Bearer BQDrFHTkDFEchBZbPIP4tuU4WouMG2Xgf0vrnNNlohLXncZZ84_W0iMchbKAg12jFoELL_XTP2utMyoxIBM2voBlSA-LMQ74EyMDGzDU9lWsJWQRwahfi8qtrjk2Py2wiY6wC7ocwXxBt1aa"
           }
         }
       );
       let data = await res.json();
       const newFoundItem = data.artists.items[0].name;
-      setSearchList(newFoundItem);
+      if (newFoundItem) {
+        setSearchList(newFoundItem);
+      }
     } catch (err) {
       console.log(err);
     }
   }
 
-  async function handleSearchClick(item) {
-    setShowStar(item);
-
+  async function handleSearchClick(event) {
     try {
       let res = await fetch(
-        `https://api.spotify.com/v1/search?q=${searchMusic}&type=artist&market=US&offset=5&limit=10`,
+        `https://api.spotify.com/v1/search?q=${searchMusic}&type=artist&market=US&offset=20&limit=10`,
         {
           headers: {
             Authorization:
-              "Bearer BQAY6kZzsYqqgdxPVUO4WTH6ApovTUNc2Ujp-VAHdOpRHl18SNVKR6WlUTlo20GwdNfF1chZoxcVyDRtvjKQ3eGfH4l2GE2Mz7LjeOja9N7hQnBRbv-ulKAc33li8YvfkH_-BJ0MBPZm7pOT"
+              "Bearer BQDrFHTkDFEchBZbPIP4tuU4WouMG2Xgf0vrnNNlohLXncZZ84_W0iMchbKAg12jFoELL_XTP2utMyoxIBM2voBlSA-LMQ74EyMDGzDU9lWsJWQRwahfi8qtrjk2Py2wiY6wC7ocwXxBt1aa"
           }
         }
       );
       let data = await res.json();
       let newFoundImage = await data.artists.items[0].images[1].url;
       let url = await data.artists.items[0].external_urls.spotify;
-      setImageSrc(newFoundImage);
-      setLinkSrc(url);
+
+      if (newFoundImage) {
+        setImageSrc(newFoundImage);
+      }
+      if (url) {
+        setLinkSrc(url);
+      }
+      if (searchList) {
+        setShowStar(searchList);
+      }
       console.log(url);
     } catch (err) {
       console.log(err);
@@ -58,15 +67,28 @@ function Search(props) {
     setShowStar(false);
   }
 
+  function handleFavClick() {
+    return props.onToFav(searchList);
+  }
+
   if (showStar) {
     return (
       <div onClick={handleBackClick}>
         <h2>{searchList}</h2>
-        {imageSrc && <img alt={searchList} src={imageSrc} />}
         <br />
-        <a className="btn btn-success" href={linkSrc}>
-          {searchList}
-        </a>
+        {imageSrc && <img id="picSize" alt={searchList} src={imageSrc} />}
+        <br />
+        <br />
+        <br />
+        <div className="row justify-content-center">
+          <a className="btn btn-success mr-5" href={linkSrc}>
+            You wanna listen to {searchList}?
+          </a>
+
+          <button className="btn btn-success" onClick={handleFavClick}>
+            Add to your favourite artists
+          </button>
+        </div>
       </div>
     );
   }
@@ -74,25 +96,21 @@ function Search(props) {
   return (
     <div className="form-group row">
       <div className="col-2" />
-      <div className="form-group row col-8">
-        <label htmlFor="inputMusic" className="col-2 col-form-label">
+      <div className="textSearch form-group row col-10 justify-content-center align-items-center">
+        <label htmlFor="inputMusic" className="col-2 col-form-label ">
           Search
         </label>
         <input
           onChange={handleInputChange}
-          className="form-control col-4"
+          className="form-control col-6"
           name="inputMusic"
           type="text"
+          placeholder="surf your lovie-dovie singer..."
         />
-        <div className="row col-6">
-          <div className="col" onClick={handleSearchClick}>
-            {searchList}
-          </div>
-          <img id="picSize" className="col" alt={searchList} src={imageSrc} />
+        <div className="textSearch col-4" onClick={handleSearchClick}>
+          {searchList}
         </div>
       </div>
-
-      <div className="col-2" />
     </div>
   );
 }
